@@ -1,0 +1,14 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+/* .badge {
+  margin-left: 2px !important;
+  padding-left: 2px !important;
+} */
+
+.btn:active .icon-btn-icon,
+.btn:focus .icon-btn-icon {
+  color: white !important;
+}
