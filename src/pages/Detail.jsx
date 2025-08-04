@@ -6,74 +6,103 @@ import { addToCart } from "../redux/slice/cartSlice";
 
 function Detail() {
   const [product, setProduct] = useState({});
-  // const { products } = useSelector((state) => state.productSlice);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
   const { id } = useParams();
-  console.log(id);
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    getProductById();
+  }, );
 
-  const getProducts = () => {
-    const products = JSON.parse(sessionStorage.getItem("apiData"));
-    const res = products.find((item) => item.id == id);
-    setProduct(res);
+  const getProductById = () => {
+    const products = JSON.parse(sessionStorage.getItem("apiData")) || [];
+    const foundProduct = products.find((item) => item.id === Number(id));
+
+    if (foundProduct) {
+      setProduct(foundProduct);
+    } else {
+      console.warn("Product not found");
+      setProduct({});
+    }
+
+    setLoading(false);
   };
+
+  if (loading) {
+    return (
+      <section className="py-5 bg-light min-vh-50">
+        <div className="container py-5 text-center">
+          <h4>Loading product details...</h4>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <>
-      <section className="py-5">
-        <div className="container px-4 px-lg-5 my-5">
-          <div className="row gx-4 gx-lg-5 align-items-center">
-            <div className="col-md-6">
-              <img
-                className="card-img-top mb-5 mb-md-0"
-                src={product.thumbnail}
-                alt={product?.title || "Product image"}
-              />
+    <section className="py-5 bg-light min-vh-50">
+      <div className="container py-5">
+        <div className="row align-items-center">
+          <div className="col-md-6 mb-4 mb-md-0">
+            <div className="border rounded shadow-sm p-3 bg-white text-center">
+              {product?.thumbnail ? (
+                <img
+                  src={product.thumbnail}
+                  alt={product.title || "Product Image"}
+                  className="img-fluid rounded"
+                  style={{ maxHeight: "450px", objectFit: "contain" }}
+                />
+              ) : (
+                <p>No image available</p>
+              )}
             </div>
-            <div className="col-md-6">
-              <div className="small mb-1">ID: {product?.id || "N/A"}</div>
-              <h1 className="display-5 fw-bolder">
+          </div>
+
+          <div className="col-md-6">
+            <div className="bg-white border rounded p-4 shadow-sm">
+              <small className="text-muted">
+                Product ID: {product?.id || "N/A"}
+              </small>
+              <h2 className="fw-bold mt-2 text-dark">
                 {product?.title || "Product Title"}
-              </h1>
-              <div className="fs-5 mb-5">
+              </h2>
+
+              <div className="fs-5 mb-3 mt-2 text-dark">
                 {product?.oldPrice && (
-                  <span className="text-decoration-line-through">
+                  <span className="text-decoration-line-through me-2 text-secondary">
                     ${product.oldPrice}
                   </span>
                 )}
-                <span>${product?.price || "0.00"}</span>
+                <span className="fw-semibold text-success">
+                  ${product?.price || "0.00"}
+                </span>
               </div>
-              <p className="lead">
+
+              <p className="text-muted">
                 {product?.description || "No description available."}
               </p>
-              <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div className="d-flex justify-content-between">
-                  <button
-                    className="btn btn-primary"
-                    id="icon-button"
-                    onClick={() => dispatch(addToCart(product))}
-                  >
-                    <i class="fa-solid fa-cart-plus text-primary icon-btn-icon"></i>
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    id="icon-button"
-                    onClick={() => {
-                      dispatch(addToWishList(product));
-                    }}
-                  >
-                    <i class="fa-solid fa-heart-circle-plus text-danger icon-btn-icon"></i>
-                  </button>
-                </div>
+
+              <div className="d-flex gap-3 mt-4">
+                <button
+                  className="btn btn-outline-primary w-50"
+                  onClick={() => dispatch(addToCart(product))}
+                  disabled={!product?.id}
+                >
+                  <i className="fa-solid fa-cart-plus me-2"></i>Add to Cart
+                </button>
+                <button
+                  className="btn btn-outline-danger w-50"
+                  onClick={() => dispatch(addToWishList(product))}
+                  disabled={!product?.id}
+                >
+                  <i className="fa-solid fa-heart-circle-plus me-2"></i>Add to
+                  Wishlist
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 

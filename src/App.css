@@ -1,0 +1,130 @@
+.custom-navbar {
+  background: linear-gradient(90deg, #f8f9fa, #e3f2fd);
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+
+.brand-link {
+  text-decoration: none;
+  color: #212529;
+  transition: color 0.3s ease;
+}
+
+.brand-link:hover {
+  color: #0d6efd;
+}
+
+.search-box input {
+  width: 250px;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-box input:focus {
+  width: 300px;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.badge {
+  font-size: 0.75rem;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card styling */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  border: none;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Text inside cards */
+.card-body h5 {
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-body p {
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* Buttons */
+#icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: background 0.3s ease;
+}
+
+#icon-button:hover {
+  background-color: #f8f9fa;
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pagination-container span {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.footer-section {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+.footer-link {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #084298;
+  text-decoration: underline;
+}
+
+textarea.form-control {
+  resize: none;
+  font-size: 0.9rem;
+}
+
+button.btn {
+  transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+  background-color: #212529;
+  color: #fff;
+}

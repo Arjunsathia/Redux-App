@@ -9,10 +9,16 @@ import {
 import { addToWishList } from "../redux/slice/wishSlice";
 import { addToCart } from "../redux/slice/cartSlice";
 
+
 function Landing() {
-  // const state = useSelector((state) => state.productSlice);
   const { products, error, loading, productsPerPage, currentPage } =
     useSelector((state) => state.productSlice);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProductsThunk());
+  }, [dispatch]);
 
   const totalPage = Math.ceil(products.length / productsPerPage);
   const firstIndex = (currentPage - 1) * 10;
@@ -23,76 +29,70 @@ function Landing() {
       dispatch(nextPage());
     }
   };
+
   const handlePrev = () => {
     if (currentPage > 1) {
       dispatch(previousPage());
     }
   };
 
-  console.log(products);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchProductsThunk());
-  }, []);
-
   return (
     <>
-      <header className="bg-dark py-5">
+      <header className="bg-secondary pt-3">
         <div className="container px-4 px-lg-5 my-5">
           <div className="text-center text-white">
             <h1 className="display-4 fw-bolder">Shop in style</h1>
-            <p className="lead fw-normal text-white-50 mb-0">
+            <p className="lead fw-normal text-dark mb-0">
               With this shop homepage template
             </p>
           </div>
         </div>
       </header>
 
-      <section className="py-5">
+      <section className="py-2">
         <div className="container px-4 px-lg-5 mt-5">
           <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             {loading ? (
-              <h2>Loading</h2>
+              <div className="text-center py-5">
+                <div className="spinner-border text-primary" role="status"></div>
+              </div>
             ) : error.length > 0 ? (
               <h2 className="text-center text-danger">{error}</h2>
             ) : (
               products.slice(firstIndex, lastIndex).map((item) => (
-                <div className="col mb-5">
-                  <div className="card h-100">
-                    <Link className="" to={`/det/${item.id}`}>
+                <div className="col mb-5" key={item.id}>
+                  <div className="card h-100 shadow-sm">
+                    <Link to={`/det/${item.id}`}>
                       <img
                         className="card-img-top"
                         src={item.thumbnail}
-                        alt="..."
+                        alt={item.title}
+                        onError={(e) => (e.target.src = "/fallback.jpg")}
                       />
                     </Link>
-
                     <div className="card-body p-4">
                       <div className="text-center">
-                        <h5 className="fw-bolder">
+                        <h5 className="fw-bold">
                           {item.title.slice(0, 10)}...
                         </h5>
-                        ${item.price}
+                        <p className="text-muted mb-0">${item.price}</p>
                       </div>
                     </div>
-
-                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div className="card-footer p-3 pt-0 border-top-0 bg-transparent">
                       <div className="d-flex justify-content-between">
                         <button
-                          className="btn btn-primary"
+                          className="btn btn-outline-primary"
                           id="icon-button"
-                          onClick={() => {
-                            dispatch(addToCart(item));
-                          }}
+                          onClick={() => dispatch(addToCart(item))}
                         >
-                          <i class="fa-solid fa-cart-plus text-primary icon-btn-icon"></i>
+                          <i className="fa-solid fa-cart-plus"></i>
                         </button>
                         <button
-                          className="btn btn-danger"
+                          className="btn btn-outline-danger"
                           id="icon-button"
                           onClick={() => dispatch(addToWishList(item))}
                         >
-                          <i class="fa-solid fa-heart-circle-plus text-danger icon-btn-icon"></i>
+                          <i className="fa-solid fa-heart-circle-plus"></i>
                         </button>
                       </div>
                     </div>
@@ -103,15 +103,16 @@ function Landing() {
           </div>
         </div>
       </section>
-      <div className="d-flex justify-content-center">
-        <button className="btn" onClick={handlePrev}>
-          <i className="fa-solid fa-backward"></i>
+
+      <div className="pagination-container">
+        <button className="btn btn-outline-secondary" onClick={handlePrev}>
+          <i className="fa-solid fa-chevron-left"></i>
         </button>
         <span>
-          {currentPage}/{totalPage}
+          Page {currentPage} of {totalPage}
         </span>
-        <button className="btn" onClick={handleNext}>
-          <i className="fa-solid fa-forward"></i>
+        <button className="btn btn-outline-secondary" onClick={handleNext}>
+          <i className="fa-solid fa-chevron-right"></i>
         </button>
       </div>
     </>

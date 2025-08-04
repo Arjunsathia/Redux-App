@@ -10,15 +10,15 @@ function Wishlist() {
 
   const dispatch = useDispatch();
 
-  const addToCartHandler = (products)=>{
-    dispatch(addToCart(products))
-    dispatch(removeFromWishList(products.id))
-  }
+  const addToCartHandler = (products) => {
+    dispatch(addToCart(products));
+    dispatch(removeFromWishList(products.id));
+  };
 
   return (
     <>
-      <div className="container">
-        <h2 className="my-32">Wishlist</h2>
+      <div className="container-fluid py-4" style={{ minHeight: "60vh" }}>
+        {/* <h2 className="my-32">Wishlist</h2> */}
         <section className="py-5">
           <div className="container px-4 px-lg-5 mt-5">
             <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -47,7 +47,7 @@ function Wishlist() {
                             <button
                               className="btn btn-primary"
                               id="icon-button"
-                              onClick={()=>(addToCartHandler(item))}
+                              onClick={() => addToCartHandler(item)}
                             >
                               <i class="fa-solid fa-cart-plus text-primary icon-btn-icon"></i>
                             </button>

@@ -7,55 +7,55 @@ import {
   removeFromCart,
 } from "../redux/slice/cartSlice";
 
-
 function Cart() {
   const { cart } = useSelector((state) => state.cartSlice);
-  console.log(cart);
   const dispatch = useDispatch();
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid py-4" style={{ minHeight: "60vh" }}>
+        ‰{" "}
         <div className="row">
-          <div className="col-8">
-            <h1 className="mb-4">Cart Summary</h1>
+          {/* Cart Summary */}
+          <div className="col-lg-8 mb-4">
+            <h2 className="mb-4 text-dark fw-bold">🛒 Cart Summary</h2>
             {cart.length > 0 ? (
-              <table className="table table-bordered align-middle text-center">
-                <thead className="table-secondary">
+              <table className="table table-bordered align-middle text-center shadow-sm">
+                <thead className="table-dark ">
                   <tr>
-                    <th className="text-dark">ID</th>
-                    <th className="text-dark">Title</th>
-                    <th className="text-dark">Image</th>
-                    <th className="text-dark">Unit Price</th>
-                    <th className="text-dark">Quantity</th>
-                    <th className="text-dark">Total Price</th>
-                    <th className="text-dark">Action</th>
+                    <th className="text-secondary">#</th>
+                    <th className="text-secondary">Product</th>
+                    <th className="text-secondary">Image</th>
+                    <th className="text-secondary">Price</th>
+                    <th className="text-secondary">Quantity</th>
+                    <th className="text-secondary">Total</th>
+                    <th className="text-secondary">Remove</th>
                   </tr>
                 </thead>
                 <tbody>
                   {cart.map((item, index) => (
-                    <tr>
+                    <tr key={item.id}>
                       <td className="text-dark">{index + 1}</td>
-                      <td className="text-dark">{item.title}</td>
-                      <td className="text-dark">
+                      <td className="text-dark fw-semibold">{item.title}</td>
+                      <td>
                         <img
                           src={item.thumbnail}
-                          alt="iPhone"
-                          style={{ height: "110px", objectFit: "contain" }}
+                          alt={item.title}
+                          style={{ height: "100px", objectFit: "contain" }}
                         />
                       </td>
                       <td className="text-dark">${item.price}</td>
-                      <td className="text-dark">
+                      <td>
                         <div className="d-flex justify-content-center align-items-center gap-3">
                           <button
-                            className="btn btn-sm btn-danger"
+                            className="btn btn-sm btn-outline-secondary no-hover"
                             onClick={() => dispatch(decrementQuantity(item.id))}
                           >
                             -
                           </button>
-                          <span>{item.quantity}</span>
+                          <span className="fw-medium">{item.quantity}</span>
                           <button
-                            className="btn btn-sm btn-success"
+                            className="btn btn-sm btn-outline-secondary no-hover"
                             onClick={() => dispatch(incrementQuantity(item.id))}
                           >
                             +
@@ -65,13 +65,12 @@ function Cart() {
                       <td className="text-dark">
                         ${item.price * item.quantity}
                       </td>
-                      <td className="text-dark">
+                      <td>
                         <button
-                          className="btn btn-sm btn-dark"
-                          id="icon-button"
+                          className="btn btn-sm btn-outline-danger no-hover"
                           onClick={() => dispatch(removeFromCart(item.id))}
                         >
-                          <i className="fa-solid fa-trash text-dark icon-btn-icon"></i>
+                          <i className="fa-solid fa-trash"></i>
                         </button>
                       </td>
                     </tr>
@@ -79,14 +78,18 @@ function Cart() {
                 </tbody>
               </table>
             ) : (
-              <h2>No products</h2>
+              <h4 className="text-muted">No products in the cart.</h4>
             )}
           </div>
-          <div className="col-4">
-            <h1 className="mb-4">Cart Details</h1>
-            <div className="card p-3">
-              <h5 className="text-dark">Total Items: {cart.length}</h5>
-              <h5 className="text-dark">
+
+          {/* Cart Details */}
+          <div className="col-lg-4">
+            <h2 className="mb-4 text-dark fw-bold">📦 Cart Details</h2>
+            <div className="card p-4 shadow-sm border-0">
+              <p className="text-dark mb-2 fw-medium">
+                Total Items: {cart.length}
+              </p>
+              <p className="text-dark mb-3 fw-medium">
                 Total Price: $
                 {Math.ceil(
                   cart.reduce(
@@ -94,8 +97,11 @@ function Cart() {
                     0
                   )
                 )}
-              </h5>
-              <button className="btn btn-primary w-100 mt-3" onClick={()=> dispatch(checkout())}>
+              </p>
+              <button
+                className="btn btn-dark w-100 no-hover"
+                onClick={() => dispatch(checkout())}
+              >
                 Proceed to Checkout
               </button>
             </div>

@@ -8,63 +8,93 @@ import { search } from "../redux/slice/productSlice";
 function Header() {
   const { wishList } = useSelector((state) => state.wishSlice);
   const { cart } = useSelector((state) => state.cartSlice);
-
   const dispatch = useDispatch();
+
   return (
-    <>
-      <Navbar className="bg-body-tertiary">
-        <Container>
-          <Navbar.Brand href="#home">
-            <div className="d-flex justify-content-center align-items-center">
-              <Link
-                to="/"
-                style={{ textDecoration: "none" }}
-                className="d-flex align-items-center gap-2"
-              >
-                <img
-                  alt="Cart Icon"
-                  src="https://toppng.com/uploads/preview/trolley-vector-grocery-cart-jpg-royalty-free-shopping-cart-vector-11562900803kma5vmgfao.png"
-                  width="35"
-                  height="35"
-                  className="d-inline-block align-middle"
-                />
-                <h4 className="m-0 text-dark">Redux Cart</h4>
-              </Link>
-            </div>
-          </Navbar.Brand>
-          <div>
-            <input
-              type="search"
-              placeholder="Search by keyword"
-              className="form-control"
-              onChange={(e) => dispatch(search(e.target.value))}
+    <Navbar expand="lg" className="custom-navbar shadow-sm px-4 py-3">
+      <Container
+        fluid
+        className="d-flex justify-content-between align-items-center"
+      >
+        <Navbar.Brand>
+          <Link to="/" className="brand-link d-flex align-items-center gap-2">
+            <img
+              src="https://toppng.com/uploads/preview/trolley-vector-grocery-cart-jpg-royalty-free-shopping-cart-vector-11562900803kma5vmgfao.png"
+              width="40"
+              height="40"
+              alt="Cart Logo"
+              className="brand-logo"
             />
-          </div>
-          <div className="d-flex ">
+            <h4 className="mb-0 fw-bold">Redux Cart</h4>
+          </Link>
+        </Navbar.Brand>
+
+        <div className="search-box">
+          <input
+            type="search"
+            placeholder="Search products..."
+            className="form-control rounded-pill shadow-sm"
+            onChange={(e) => dispatch(search(e.target.value))}
+          />
+        </div>
+
+        <div className="d-flex align-items-center gap-4">
+          {/* Wishlist */}
+          <div className="position-relative">
             <Link
               to="/wish"
-              className="btn p-3 d-flex align-items-center justify-content-between gap-2 me-3"
+              className="btn btn-outline-danger rounded-pill px-4"
             >
-              <span className="d-flex align-items-center gap-1">
-                <i className="fa-solid fa-heart text-danger"></i>
-                Wishlist
-                <span className="badge m-0 p-0 d-flex align-items-center justify-content-center"></span>
+              <i className="fa-solid fa-heart me-2"></i>
+              Wishlist
+            </Link>
+            {wishList.length > 0 && (
+              <span
+                className="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger"
+                style={{
+                  fontSize: "0.75rem",
+                  minWidth: "20px",
+                  height: "20px",
+                  lineHeight: "20px",
+                  textAlign: "center",
+                  padding: "0",
+                  transform: "translate(-30%, -30%)",
+                }}
+              >
                 {wishList.length}
               </span>
-            </Link>
-
-            <Link
-              className="btn p-3 d-flex align-items-center gap-2 me-3"
-              to={"/cart"}
-            >
-              <i class="fa-solid fa-cart-shopping text-primary"></i>{" "}
-              <span>Cart</span>
-              <span>{cart.length}</span>
-            </Link>
+            )}
           </div>
-        </Container>
-      </Navbar>
-    </>
+
+          {/* Cart */}
+          <div className="position-relative">
+            <Link
+              to="/cart"
+              className="btn btn-outline-primary rounded-pill px-4"
+            >
+              <i className="fa-solid fa-cart-shopping me-2"></i>
+              Cart
+            </Link>
+            {cart.length > 0 && (
+              <span
+                className="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-primary"
+                style={{
+                  fontSize: "0.75rem",
+                  minWidth: "20px",
+                  height: "20px",
+                  lineHeight: "20px",
+                  textAlign: "center",
+                  padding: "0",
+                  transform: "translate(-30%, -30%)",
+                }}
+              >
+                {cart.length}
+              </span>
+            )}
+          </div>
+        </div>
+      </Container>
+    </Navbar>
   );
 }
 
