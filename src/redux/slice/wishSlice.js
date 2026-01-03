@@ -11,10 +11,10 @@ const wishlistSlice = createSlice({
         (item) => item.id === action.payload.id
       );
       if (existing) {
-        alert("Already in Wishlist");
+        // Already in wishlist
       } else {
         state.wishList.push(action.payload);
-        alert("Added to Wishlist");
+        // Added silently
       }
     },
     removeFromWishList: (state, action) => {

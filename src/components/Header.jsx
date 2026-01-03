@@ -14,9 +14,9 @@ function Header() {
     <Navbar expand="lg" className="custom-navbar shadow-sm px-4 py-3">
       <Container
         fluid
-        className="d-flex justify-content-between align-items-center"
+        className="d-flex flex-wrap flex-lg-nowrap justify-content-between align-items-center"
       >
-        <Navbar.Brand>
+        <Navbar.Brand className="order-1">
           <Link to="/" className="brand-link d-flex align-items-center gap-2">
             <img
               src="https://toppng.com/uploads/preview/trolley-vector-grocery-cart-jpg-royalty-free-shopping-cart-vector-11562900803kma5vmgfao.png"
@@ -29,24 +29,26 @@ function Header() {
           </Link>
         </Navbar.Brand>
 
-        <div className="search-box">
+        {/* Search Bar - Full width on mobile (order-3), centered on desktop (order-lg-2) */}
+        <div className="search-box order-3 order-lg-2 w-100 w-lg-auto mt-3 mt-lg-0 flex-grow-1 mx-lg-5">
           <input
             type="search"
-            placeholder="Search products..."
-            className="form-control rounded-pill shadow-sm"
+            placeholder="Search for products, brands and more..."
+            className="form-control rounded-pill shadow-none"
             onChange={(e) => dispatch(search(e.target.value))}
           />
         </div>
 
-        <div className="d-flex align-items-center gap-4">
+        {/* Icons - Right side on mobile (order-2), Right side on desktop (order-lg-3) */}
+        <div className="d-flex align-items-center gap-3 gap-md-4 order-2 order-lg-3">
           {/* Wishlist */}
           <div className="position-relative">
             <Link
               to="/wish"
-              className="btn btn-outline-danger rounded-pill px-4"
+              className="btn btn-premium rounded-pill px-3 px-md-4 d-flex align-items-center danger-hover"
             >
-              <i className="fa-solid fa-heart me-2"></i>
-              Wishlist
+              <i className="fa-regular fa-heart align-middle fs-5"></i>
+              <span className="ms-2 d-none d-md-inline small text-uppercase fw-bold">Wishlist</span>
             </Link>
             {wishList.length > 0 && (
               <span
@@ -70,10 +72,10 @@ function Header() {
           <div className="position-relative">
             <Link
               to="/cart"
-              className="btn btn-outline-primary rounded-pill px-4"
+              className="btn btn-premium rounded-pill px-3 px-md-4 d-flex align-items-center"
             >
-              <i className="fa-solid fa-cart-shopping me-2"></i>
-              Cart
+              <i className="fa-solid fa-bag-shopping align-middle fs-5"></i>
+              <span className="ms-2 d-none d-md-inline small text-uppercase fw-bold">Cart</span>
             </Link>
             {cart.length > 0 && (
               <span

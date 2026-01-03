@@ -12,17 +12,17 @@ const cartSlice = createSlice({
         state.cart = state.cart.filter((item) => item.id != existing.id);
         existing.quantity += 1;
         state.cart.push(existing);
-        alert("Product already exist ! Quantity Updated");
+        // Quantity updated silently, UI should handle notification if needed
       } else {
         const newItem = { ...action.payload, quantity: 1 };
         // newItem.quantity = 1;
         state.cart.push(newItem);
-        alert("Product Added to cart");
+        // Added to cart silently
       }
     },
     removeFromCart(state, action) {
       state.cart = state.cart.filter((item) => item.id != action.payload);
-      alert("Product Removed Form cart!");
+    // Removed silently
     },
     incrementQuantity(state, action) {
       const existing = state.cart.find((item) => item.id == action.payload);

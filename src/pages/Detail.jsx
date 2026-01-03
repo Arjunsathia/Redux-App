@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { addToWishList } from "../redux/slice/wishSlice";
@@ -12,7 +13,7 @@ function Detail() {
 
   useEffect(() => {
     getProductById();
-  }, );
+  },);
 
   const getProductById = () => {
     const products = JSON.parse(sessionStorage.getItem("apiData")) || [];
@@ -26,6 +27,16 @@ function Detail() {
     }
 
     setLoading(false);
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+    toast.success(`${product.title} added to Cart!`);
+  };
+
+  const handleAddToWishlist = () => {
+    dispatch(addToWishList(product));
+    toast.info(`${product.title} added to Wishlist!`);
   };
 
   if (loading) {
@@ -42,7 +53,7 @@ function Detail() {
     <section className="py-5 bg-light min-vh-50">
       <div className="container py-5">
         <div className="row align-items-center">
-          <div className="col-md-6 mb-4 mb-md-0">
+          <div className="col-md-6 mb-5 mb-md-0">
             <div className="border rounded shadow-sm p-3 bg-white text-center">
               {product?.thumbnail ? (
                 <img
@@ -81,17 +92,17 @@ function Detail() {
                 {product?.description || "No description available."}
               </p>
 
-              <div className="d-flex gap-3 mt-4">
+              <div className="d-flex flex-column flex-md-row gap-3 mt-4">
                 <button
-                  className="btn btn-outline-primary w-50"
-                  onClick={() => dispatch(addToCart(product))}
+                  className="btn btn-outline-primary w-100 w-md-auto flex-grow-1"
+                  onClick={handleAddToCart}
                   disabled={!product?.id}
                 >
                   <i className="fa-solid fa-cart-plus me-2"></i>Add to Cart
                 </button>
                 <button
-                  className="btn btn-outline-danger w-50"
-                  onClick={() => dispatch(addToWishList(product))}
+                  className="btn btn-outline-danger w-100 w-md-auto flex-grow-1"
+                  onClick={handleAddToWishlist}
                   disabled={!product?.id}
                 >
                   <i className="fa-solid fa-heart-circle-plus me-2"></i>Add to

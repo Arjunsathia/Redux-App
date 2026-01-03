@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeFromWishList } from "../redux/slice/wishSlice";
@@ -13,6 +14,12 @@ function Wishlist() {
   const addToCartHandler = (products) => {
     dispatch(addToCart(products));
     dispatch(removeFromWishList(products.id));
+    toast.success(`${products.title.slice(0, 20)}... moved to Cart!`);
+  };
+
+  const handleRemove = (product) => {
+    dispatch(removeFromWishList(product.id));
+    toast.error(`${product.title.slice(0, 20)}... removed from Wishlist`);
   };
 
   return (
@@ -21,7 +28,7 @@ function Wishlist() {
         {/* <h2 className="my-32">Wishlist</h2> */}
         <section className="py-5">
           <div className="container px-4 px-lg-5 mt-5">
-            <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div className="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
               {wishList.length > 0 ? (
                 <>
                   {wishList.map((item) => (
@@ -37,8 +44,10 @@ function Wishlist() {
 
                         <div className="card-body p-4">
                           <div className="text-center">
-                            <h5 className="fw-bolder">{item.title}</h5>$
-                            {item.price}
+                            <h5 className="fw-bolder text-truncate" title={item.title}>
+                              {item.title}
+                            </h5>
+                            ${item.price}
                           </div>
                         </div>
 
@@ -54,9 +63,7 @@ function Wishlist() {
                             <button
                               className="btn btn-danger"
                               id="icon-button"
-                              onClick={() =>
-                                dispatch(removeFromWishList(item.id))
-                              }
+                              onClick={() => handleRemove(item)}
                             >
                               <i className="fa-solid fa-heart-circle-xmark text-danger icon-btn-icon"></i>
                             </button>

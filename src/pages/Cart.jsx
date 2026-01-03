@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkout,
@@ -11,10 +12,19 @@ function Cart() {
   const { cart } = useSelector((state) => state.cartSlice);
   const dispatch = useDispatch();
 
+  const handleCheckout = () => {
+    dispatch(checkout());
+    toast.success("Checkout Successful! Thank you for shopping.");
+  };
+
+  const handleRemove = (item) => {
+    dispatch(removeFromCart(item.id));
+    toast.error(`${item.title.slice(0, 20)}... removed from Cart`);
+  };
+
   return (
     <>
       <div className="container-fluid py-4" style={{ minHeight: "60vh" }}>
-        ‰{" "}
         <div className="row">
           {/* Cart Summary */}
           <div className="col-lg-8 mb-4">
@@ -68,7 +78,7 @@ function Cart() {
                       <td>
                         <button
                           className="btn btn-sm btn-outline-danger no-hover"
-                          onClick={() => dispatch(removeFromCart(item.id))}
+                          onClick={() => handleRemove(item)}
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
@@ -84,27 +94,31 @@ function Cart() {
 
           {/* Cart Details */}
           <div className="col-lg-4">
-            <h2 className="mb-4 text-dark fw-bold">📦 Cart Details</h2>
-            <div className="card p-4 shadow-sm border-0">
-              <p className="text-dark mb-2 fw-medium">
-                Total Items: {cart.length}
-              </p>
-              <p className="text-dark mb-3 fw-medium">
-                Total Price: $
-                {Math.ceil(
-                  cart.reduce(
-                    (acc, item) => acc + item.price * item.quantity,
-                    0
-                  )
-                )}
-              </p>
-              <button
-                className="btn btn-dark w-100 no-hover"
-                onClick={() => dispatch(checkout())}
-              >
-                Proceed to Checkout
-              </button>
-            </div>
+            {cart.length > 0 && (
+              <>
+                <h2 className="mb-4 text-dark fw-bold">📦 Cart Details</h2>
+                <div className="card p-4 shadow-sm border-0">
+                  <p className="text-dark mb-2 fw-medium">
+                    Total Items: {cart.length}
+                  </p>
+                  <p className="text-dark mb-3 fw-medium">
+                    Total Price: $
+                    {Math.ceil(
+                      cart.reduce(
+                        (acc, item) => acc + item.price * item.quantity,
+                        0
+                      )
+                    )}
+                  </p>
+                  <button
+                    className="btn btn-dark w-100 no-hover"
+                    onClick={handleCheckout}
+                  >
+                    Proceed to Checkout
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

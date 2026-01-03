@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -36,6 +37,16 @@ function Landing() {
     }
   };
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    toast.success(`${product.title.slice(0, 20)}... added to Cart!`);
+  };
+
+  const handleAddToWishlist = (product) => {
+    dispatch(addToWishList(product));
+    toast.info(`${product.title.slice(0, 20)}... added to Wishlist!`);
+  };
+
   return (
     <>
       <header className="bg-secondary pt-3">
@@ -51,7 +62,7 @@ function Landing() {
 
       <section className="py-2">
         <div className="container px-4 px-lg-5 mt-5">
-          <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+          <div className="row g-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             {loading ? (
               <div className="text-center py-5">
                 <div className="spinner-border text-primary" role="status"></div>
@@ -70,29 +81,29 @@ function Landing() {
                         onError={(e) => (e.target.src = "/fallback.jpg")}
                       />
                     </Link>
-                    <div className="card-body p-4">
+                    <div className="card-body p-3">
                       <div className="text-center">
-                        <h5 className="fw-bold">
-                          {item.title.slice(0, 10)}...
+                        <h5 className="fw-bold text-truncate" style={{ fontSize: "0.9rem" }} title={item.title}>
+                          {item.title}
                         </h5>
-                        <p className="text-muted mb-0">${item.price}</p>
+                        <p className="text-muted mb-0 small">${item.price}</p>
                       </div>
                     </div>
                     <div className="card-footer p-3 pt-0 border-top-0 bg-transparent">
-                      <div className="d-flex justify-content-between">
+                      <div className="d-flex justify-content-between align-items-center">
                         <button
-                          className="btn btn-outline-primary"
+                          className="btn btn-outline-primary shadow-sm"
                           id="icon-button"
-                          onClick={() => dispatch(addToCart(item))}
+                          onClick={() => handleAddToCart(item)}
                         >
-                          <i className="fa-solid fa-cart-plus"></i>
+                          <i className="fa-solid fa-cart-shopping"></i>
                         </button>
                         <button
-                          className="btn btn-outline-danger"
+                          className="btn btn-outline-danger shadow-sm"
                           id="icon-button"
-                          onClick={() => dispatch(addToWishList(item))}
+                          onClick={() => handleAddToWishlist(item)}
                         >
-                          <i className="fa-solid fa-heart-circle-plus"></i>
+                          <i className="fa-solid fa-heart"></i>
                         </button>
                       </div>
                     </div>
